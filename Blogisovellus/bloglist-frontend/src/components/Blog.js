@@ -4,6 +4,7 @@ import blogService from '../services/blogs'
 
 const Blog = ({ blog, setBlogs, blogs, user }) => {
   //kuvaa kuinka suuri määrä infoa näytetään
+  
   const [BigDisplay, setBigDisplay] = useState(false)
 
   const blogStyle = {
@@ -25,6 +26,18 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
       )
     }
 
+  }
+
+  const Tykkaykset = () => {
+    
+    if(blog.likes===null){
+      return(
+        <span>no likes</span>
+      )
+    }
+    return(
+      <span>{blog.likes} likes</span>
+    )
   }
 
   const toggleDisplay = () => {
@@ -71,14 +84,12 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
 
       blogService.update(blog.id, likedBlog)
         .then(response => {
-
-          setBlogs(blogs.map(blogi => {
-            if (blog.id === blogi.id) {
-              return response
-            } else {
-              return blogi
-            }
-          }))
+          console.log('tykkäys päivitys',response);
+          blogService.getAll()
+          .then(response => {
+            setBlogs(response)
+          })
+          
         })
     }
   }
@@ -112,6 +123,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
 
       </div>
     )
+    
   } else {
     if (blog.user===null ||blog.user === undefined || blog.user.username !== user.username) {
       return (
@@ -121,7 +133,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
           </div>
           <div>{blog.url}</div>
           <div><Lisaaja /></div>
-          <span>{blog.likes} likes <button onClick={handleLike}>like</button> </span>
+          <span>{Tykkaykset}  <button onClick={handleLike}>like</button> </span>
         </div>
       )
     }
@@ -132,7 +144,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
         </div>
         <div>{blog.url}</div>
         <div><Lisaaja /></div>
-        <span>{blog.likes} likes <button onClick={handleLike}>like</button> </span>
+        <span><Tykkaykset/>  <button onClick={handleLike}>like</button> </span>
         <div><button onClick={handleRemove}>remove</button></div>
 
       </div>

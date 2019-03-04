@@ -1,15 +1,16 @@
 import React from 'react'
-import Notication from './Notification'
 import {useField} from '../hooks/index'
+import Viestikentta from './Viestikentta'
 
-const Login = ({ handleLogin, username, setUsername, salasana, ErrorMessage, name }) => {
+
+const Login = ({ handleLogin, salasana, name, store }) => {
 
 
 
     return (
       <div>
         <h2>login in to application</h2>
-        <Notication message={ErrorMessage}/>
+        <Viestikentta store={store} />
         <form onSubmit={handleLogin}>
   
           <div>

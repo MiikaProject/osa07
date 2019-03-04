@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
-import Logged from './Logged'
+import LoggedWindow from './LoggedWindow'
 import Login from './login'
 import { useField } from '../hooks/index'
+import { setNotification, clearNotification } from '../reducers/notificationReducer'
 
 
-const App = () => {
+const App = (props) => {
+  const store = props.store
+  console.log(store.getState());
+  
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
-  const [ErrorMessage, setErrorMessage] = useState(null)
-  const [SuccessMessage, setSuccessMessage] = useState(null)
   const [user, setUser] = useState(null)
   const name = useField('text')
   const salasana = useField('text')
@@ -66,9 +68,18 @@ const App = () => {
     } catch (expection) {
       console.log('käyttäjätunnus tai salasana virheellinen')
 
-      setErrorMessage('käyttäjätunnus tai salasana virheellinen')
+      const viesti = {
+        type: 'error',
+        content: `käyttäjätunnus tai salasana virheellinen'`
+      }
+      store.dispatch(
+        setNotification(viesti)
+      )
+
       setTimeout(() => {
-        setErrorMessage(null)
+        store.dispatch(
+          clearNotification()
+        )
       }, 5000)
     }
 
@@ -77,7 +88,7 @@ const App = () => {
     return (
       <div>
         
-          <Login handleLogin={handleLogin} setUsername={setUsername} username={username}  ErrorMessage={ErrorMessage} setErrorMessage={setErrorMessage} name={propsName} salasana={propsSalasana} />
+          <Login handleLogin={handleLogin} setUsername={setUsername} username={username} name={propsName} salasana={propsSalasana} store={store} />
         
       </div>
     )
@@ -85,7 +96,7 @@ const App = () => {
 
   return (
     <div>
-      <Logged blogs={blogs} user={user} setUser={setUser} setBlogs={setBlogs} SuccessMessage={SuccessMessage} setSuccessMessage={setSuccessMessage} />
+      <LoggedWindow blogs={blogs} user={user} setUser={setUser} setBlogs={setBlogs} store={store} />
     </div>
   )
 }
