@@ -11,7 +11,19 @@ const setToken = newToken => {
 
 const getAll = () => {
   const request = axios.get(baseUrl)
+  
+  
   return request.then(response => response.data)
+}
+
+const getById = async (id) => {
+  const url = `${baseUrl}/${id}`
+  
+  
+  const response = await axios.get(url)
+  
+  
+  return response.data
 }
 
 const create = async NewObject  => {
@@ -24,9 +36,11 @@ const create = async NewObject  => {
   return response.data
 }
 
-const update = async (id,UpdatedObject) => {
- 
-  const url = `${baseUrl}/${id}`
+const update = async (UpdatedObject) => {
+  
+  
+  const url = `${baseUrl}/${UpdatedObject.id}`
+  
   const response = await axios.put(url,UpdatedObject)
   return response.data
 
@@ -42,4 +56,4 @@ const remove = async (id) => {
   return response.data
 }
 
-export default { getAll, create, setToken, update, remove }
+export default { getAll, create, setToken, update, remove, getById }

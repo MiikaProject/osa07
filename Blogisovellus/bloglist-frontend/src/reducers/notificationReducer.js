@@ -10,6 +10,8 @@ const notificationReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case 'SET_NOTIFICATION':
+    
+        
             const newState = {
                 type: action.data.type,
                 content: action.data.content
@@ -32,15 +34,28 @@ const notificationReducer = (state = initialState, action) => {
 }
 
 
-export const setNotification = (message) => {
-    return ({
-        type: 'SET_NOTIFICATION',
-        data: {
-            type: message.type,
-            content: message.content
-        }
+export const setNotification = (type, message, time) => {
+    
+    
+    return dispatch => {
+        dispatch({
+            type:'SET_NOTIFICATION',
+            data :{
+                type: type,
+                content:message
+            }
+        })
+
+        setTimeout(() => {
+            dispatch({
+                type:'SET_NOTIFICATION',
+                data :{
+                    type: null,
+                    content:null
+                }
+            })
+        }, time*1000);
     }
-    )
 }
 
 export const clearNotification = () => {

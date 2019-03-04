@@ -1,8 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-const Viestikentta = ({ store }) => {
-
-    const notification = store.getState().notification
+const Viestikentta = (props) => {
+    
+    
+    const notification = props.notification
     const viestiStyle = {
         color: notification.type ==='error' ? 'red' : 'green',
         borderSize: 2,
@@ -24,4 +26,15 @@ const Viestikentta = ({ store }) => {
     )
 }
 
-export default Viestikentta
+
+const mapStateToProps = (state) => {
+    return {
+      blogs : state.blogs,
+      notification : state.notification,
+      userglobal : state.user
+    }
+  }
+  
+const ConnectedViestikentta = connect(mapStateToProps)(Viestikentta)
+
+export default ConnectedViestikentta

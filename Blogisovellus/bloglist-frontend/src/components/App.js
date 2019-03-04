@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
 import LoggedWindow from './LoggedWindow'
 import Login from './login'
 import { useField } from '../hooks/index'
-import { setNotification, clearNotification } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
+import { initializeBlogs } from '../reducers/blogsReducer'
 
 
 const App = (props) => {
-  const store = props.store
-  console.log(store.getState());
+ 
+  console.log(props);
   
-  const [blogs, setBlogs] = useState([])
+  
   const [username, setUsername] = useState('')
   const [user, setUser] = useState(null)
   const name = useField('text')
   const salasana = useField('text')
+
+  useEffect(() => {
+    props.initializeBlogs()
+  }, [])
 
   const propsName = {
     value:name.value,
@@ -25,14 +31,6 @@ const App = (props) => {
     value:salasana.value,
     onChange:salasana.onChange
   }
-
-  useEffect(() => {
-    blogService.getAll().then(blogs => {
-      blogs.sort((a, b) => b.likes - a.likes)
-      setBlogs(blogs)
-    }
-    )
-  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -67,20 +65,7 @@ const App = (props) => {
 
     } catch (expection) {
       console.log('käyttäjätunnus tai salasana virheellinen')
-
-      const viesti = {
-        type: 'error',
-        content: `käyttäjätunnus tai salasana virheellinen'`
-      }
-      store.dispatch(
-        setNotification(viesti)
-      )
-
-      setTimeout(() => {
-        store.dispatch(
-          clearNotification()
-        )
-      }, 5000)
+      props.setNotification('error', `käyttäjätunnus tai salasana virheellinen`,5)
     }
 
   }
@@ -88,7 +73,7 @@ const App = (props) => {
     return (
       <div>
         
-          <Login handleLogin={handleLogin} setUsername={setUsername} username={username} name={propsName} salasana={propsSalasana} store={store} />
+          <Login handleLogin={handleLogin} setUsername={setUsername} username={username} name={propsName} salasana={propsSalasana}  />
         
       </div>
     )
@@ -96,9 +81,22 @@ const App = (props) => {
 
   return (
     <div>
-      <LoggedWindow blogs={blogs} user={user} setUser={setUser} setBlogs={setBlogs} store={store} />
+      <LoggedWindow user={user} setUser={setUser}  />
     </div>
   )
 }
 
-export default App
+const mapStateToProps = (state) => {
+  return {
+    blogs : state.blogs,
+    notification : state.notification,
+    userglobal : state.user
+  }
+}
+
+const mapDispatchToProps = {
+  initializeBlogs, setNotification
+}
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
+export default ConnectedApp

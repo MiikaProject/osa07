@@ -1,7 +1,7 @@
 import React from 'react'
 import {useField} from '../hooks/index'
 import Viestikentta from './Viestikentta'
-
+import {connect} from 'react-redux'
 
 const Login = ({ handleLogin, salasana, name, store }) => {
 
@@ -10,7 +10,7 @@ const Login = ({ handleLogin, salasana, name, store }) => {
     return (
       <div>
         <h2>login in to application</h2>
-        <Viestikentta store={store} />
+        <Viestikentta  />
         <form onSubmit={handleLogin}>
   
           <div>
@@ -31,4 +31,15 @@ const Login = ({ handleLogin, salasana, name, store }) => {
     )
   }
 
-  export default Login
+
+  const mapStateToProps = (state) => {
+    return {
+      blogs : state.blogs,
+      notification : state.notification,
+      userglobal : state.user
+    }
+  }
+
+  const ConnectedLogin = connect(mapStateToProps)(Login)
+
+  export default ConnectedLogin

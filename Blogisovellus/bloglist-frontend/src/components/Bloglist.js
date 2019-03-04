@@ -1,19 +1,33 @@
 import React from 'react'
 import Blog from './Blog'
-
-const BlogList = ({ blogs, setBlogs, user }) => {
-
+import { connect } from 'react-redux'
 
 
-
-  return (
-    <div>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} user={user} />
-      )}
-    </div>
-
-  )
+const BlogList = (props) => {
+  
+  if(props.blogs===undefined || props.blogs ===null){
+    return null
+  } 
+  if(props.blogs){
+    return (
+      <div>
+        {props.blogs.map(blog =>
+          <Blog key={blog.id} blog={blog}  user={props.user} />
+        )}
+      </div>
+  
+    )
+  }
+  
 }
 
-export default BlogList
+const mapStateToProps = (state) => {
+  return {
+    blogs : state.blogs,
+    notification : state.notification,
+    userglobal : state.user
+  }
+}
+
+const ConnectedBlogList = connect(mapStateToProps)(BlogList)
+export default ConnectedBlogList

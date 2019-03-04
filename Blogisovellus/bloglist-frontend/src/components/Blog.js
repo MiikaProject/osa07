@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
+import { connect } from 'react-redux'
+import { likeBlog, removeBlog } from '../reducers/blogsReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
-
-const Blog = ({ blog, setBlogs, blogs, user }) => {
+const Blog = (props) => {
   //kuvaa kuinka suuri määrä infoa näytetään
+  
+  const blog = props.blog
+  const user = props.user
   
   const [BigDisplay, setBigDisplay] = useState(false)
 
@@ -30,7 +34,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
 
   const Tykkaykset = () => {
     
-    if(blog.likes===null){
+    if(blog.likes===null || blog.likes===undefined){
       return(
         <span>no likes</span>
       )
@@ -49,49 +53,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
   }
 
   const handleLike = async () => {
-
-    //jos ei useria blogilla
-    if (blog.user === undefined) {
-      const likedBlog = {
-        likes: blog.likes + 1,
-        author: blog.author,
-        title: blog.title,
-        url: blog.url
-      }
-
-
-      blogService.update(blog.id, likedBlog)
-        .then(response => {
-
-          setBlogs(blogs.map(blogi => {
-            if (blog.id === blogi.id) {
-              return response
-            } else {
-              return blogi
-            }
-          }))
-        })
-
-    } else {
-      //jos user blogilla
-      const likedBlog = {
-        user: blog.user,
-        likes: blog.likes + 1,
-        author: blog.author,
-        title: blog.title,
-        url: blog.url
-      }
-
-      blogService.update(blog.id, likedBlog)
-        .then(response => {
-          console.log('tykkäys päivitys',response);
-          blogService.getAll()
-          .then(response => {
-            setBlogs(response)
-          })
-          
-        })
-    }
+    props.likeBlog(blog.id)
   }
 
 
@@ -99,15 +61,8 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
     const decision = window.confirm(`remove blog ${blog.title}`)
 
     if (decision === true) {
-      blogService
-        .remove(blog.id)
-        .then(response => {
-          console.log(response)
-          blogService.getAll()
-            .then(response => {
-              setBlogs(response)
-            })
-        })
+        props.removeBlog(blog.id)
+        props.setNotification(null,`${blog.title} was removed`,5)
     } else {
       return
     }
@@ -133,7 +88,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
           </div>
           <div>{blog.url}</div>
           <div><Lisaaja /></div>
-          <span>{Tykkaykset}  <button onClick={handleLike}>like</button> </span>
+          <span><Tykkaykset/>  <button onClick={handleLike}>like</button> </span>
         </div>
       )
     }
@@ -153,4 +108,18 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
   }
 
 }
-export default Blog
+
+const mapStateToProps = (state) => {
+  return {
+    blogs : state.blogs,
+    notification : state.notification,
+    userglobal : state.user
+  }
+}
+
+const mapDispatchToProps = {
+  likeBlog, removeBlog, setNotification
+}
+
+const ConnectedBlog = connect(mapStateToProps, mapDispatchToProps)(Blog)
+export default ConnectedBlog
