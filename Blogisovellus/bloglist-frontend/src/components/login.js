@@ -1,11 +1,8 @@
 import React from 'react'
-import {useField} from '../hooks/index'
 import Viestikentta from './Viestikentta'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 const Login = ({ handleLogin, salasana, name }) => {
-
-
 
     return (
       <div>

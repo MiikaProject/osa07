@@ -10,15 +10,8 @@ import { clearGlobalUser } from '../reducers/userReducer'
 
 
 const LoggedWindow = (props) => {
-    console.log(props);
     
-  //logout
-  const clicked = () => {
-    window.localStorage.clear()
-    props.clearGlobalUser()
-    
-    blogService.setToken(null)
-  }
+  
 
   const blogFormRef = React.createRef()
   return (
@@ -27,7 +20,7 @@ const LoggedWindow = (props) => {
       <h2>blogs</h2>
       <Viestikentta />
       <p> {props.userglobal.username} logged in</p>
-      <button onClick={clicked}>logout</button>
+      <button onClick={() => props.clearGlobalUser()}>logout</button>
       <Toggleable buttonLabel="create new" ref={blogFormRef}>
       <Addwindow  blogFormRef={blogFormRef}  />
       </Toggleable>

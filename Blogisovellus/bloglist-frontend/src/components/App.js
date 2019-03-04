@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
@@ -8,6 +8,11 @@ import { useField } from '../hooks/index'
 import { setNotification } from '../reducers/notificationReducer'
 import { initializeBlogs } from '../reducers/blogsReducer'
 import { setUserGlobal } from '../reducers/userReducer'
+import {
+  BrowserRouter as Router,
+  Route, Link, Redirect, withRouter
+} from 'react-router-dom'
+import Users from './Users'
 
 
 const App = (props) => {
@@ -33,8 +38,6 @@ const App = (props) => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       props.setUserGlobal(user)
-      
-      blogService.setToken(user.token)
     }
 
 
@@ -50,12 +53,7 @@ const App = (props) => {
         username, password
       })
       
-      
-      
-      window.localStorage.setItem('loggedUser', JSON.stringify(user))
-      blogService.setToken(user.token)
       props.setUserGlobal(user)
-      
       
       name.reset()
       salasana.reset()
@@ -78,9 +76,14 @@ const App = (props) => {
   }
 
   return (
+    <Router>
     <div>
-      <LoggedWindow />
+      
+      <Route exact path="/" render ={() => <LoggedWindow/>}/>
+      <Route exact path="/users" render={() => <Users/>} />
+      
     </div>
+    </Router>
   )
 }
 

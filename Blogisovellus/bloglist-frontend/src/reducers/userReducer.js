@@ -1,37 +1,29 @@
-
-
+import BlogService from '../services/blogs'
 
 
 const userReducer = (state='', action) => {
+    
     switch (action.type){
 
         case 'SET_USER':
-        console.log(action.data);
-        
         state = action.data
         return state
 
         case 'CLEAR_USER':
-        console.log('clearuser toimii');
-        
         state=''
         return state
 
         default:
         return state
     }
-
-
- 
-
 }
 
+//asentaa localstoragen,asettaa tokenin, asettaa stateen userin
 export const setUserGlobal = (user) => {
-    console.log('juttu toimii');
-    console.log('user',user);
     
-    
-    return dispatch => {
+    return async dispatch => {
+        await BlogService.setToken(user.token)
+        window.localStorage.setItem('loggedUser', JSON.stringify(user))
         dispatch({
             type:'SET_USER',
             data: user
@@ -39,14 +31,15 @@ export const setUserGlobal = (user) => {
     }
 }
 
+//tyhjentaa localstoragen, tyhnetaa tokenin, tyhjentaa state userin
 export const clearGlobalUser = () => {
-    console.log('clear toimii');
-    return dispatch => {
+    return async dispatch => {
+        window.localStorage.clear()
+        await BlogService.setToken(null)
         dispatch({
             type:'CLEAR_USER'
         })
     }
-    
 }
 
 
