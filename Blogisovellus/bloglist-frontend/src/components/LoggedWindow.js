@@ -6,14 +6,17 @@ import BlogList from './Bloglist'
 import Toggleable from './Toggleable'
 import PropTypes from 'prop-types'
 import Viestikentta from './Viestikentta';
+import { clearGlobalUser } from '../reducers/userReducer'
 
 
 const LoggedWindow = (props) => {
-  
+    console.log(props);
+    
   //logout
   const clicked = () => {
     window.localStorage.clear()
-    props.setUser(null)
+    props.clearGlobalUser()
+    
     blogService.setToken(null)
   }
 
@@ -23,20 +26,20 @@ const LoggedWindow = (props) => {
 
       <h2>blogs</h2>
       <Viestikentta />
-      <p> {props.user.name}  logged in</p>
+      <p> {props.userglobal.username} logged in</p>
       <button onClick={clicked}>logout</button>
       <Toggleable buttonLabel="create new" ref={blogFormRef}>
       <Addwindow  blogFormRef={blogFormRef}  />
       </Toggleable>
-      <BlogList blogs={props.blogs} setBlogs={props.setBlogs} user={props.user} />
+      <BlogList/>
     </div>
   )
 }
 
 LoggedWindow.propTypes = {
-  setUser: PropTypes.func.isRequired,
+  
   blogs: PropTypes.array.isRequired,
-  user: PropTypes.object.isRequired,
+  
 }
 
 const mapStateToProps = (state) => {
@@ -47,6 +50,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-const ConnectedLoggedWindow = connect(mapStateToProps)(LoggedWindow)
+const mapDispatchToProps = {
+  clearGlobalUser
+}
+
+const ConnectedLoggedWindow = connect(mapStateToProps, mapDispatchToProps)(LoggedWindow)
 
 export default ConnectedLoggedWindow

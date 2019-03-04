@@ -7,15 +7,11 @@ import Login from './login'
 import { useField } from '../hooks/index'
 import { setNotification } from '../reducers/notificationReducer'
 import { initializeBlogs } from '../reducers/blogsReducer'
+import { setUserGlobal } from '../reducers/userReducer'
 
 
 const App = (props) => {
  
-  console.log(props);
-  
-  
-  const [username, setUsername] = useState('')
-  const [user, setUser] = useState(null)
   const name = useField('text')
   const salasana = useField('text')
 
@@ -36,7 +32,8 @@ const App = (props) => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      props.setUserGlobal(user)
+      
       blogService.setToken(user.token)
     }
 
@@ -57,8 +54,9 @@ const App = (props) => {
       
       window.localStorage.setItem('loggedUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
+      props.setUserGlobal(user)
+      
+      
       name.reset()
       salasana.reset()
       
@@ -69,11 +67,11 @@ const App = (props) => {
     }
 
   }
-  if (user === null) {
+  if (props.userglobal === null || props.userglobal==='') {
     return (
       <div>
         
-          <Login handleLogin={handleLogin} setUsername={setUsername} username={username} name={propsName} salasana={propsSalasana}  />
+          <Login handleLogin={handleLogin}  name={propsName} salasana={propsSalasana}  />
         
       </div>
     )
@@ -81,7 +79,7 @@ const App = (props) => {
 
   return (
     <div>
-      <LoggedWindow user={user} setUser={setUser}  />
+      <LoggedWindow />
     </div>
   )
 }
@@ -95,7 +93,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  initializeBlogs, setNotification
+  initializeBlogs, setNotification, setUserGlobal
 }
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)

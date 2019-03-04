@@ -3,7 +3,7 @@ import {useField} from '../hooks/index'
 import Viestikentta from './Viestikentta'
 import {connect} from 'react-redux'
 
-const Login = ({ handleLogin, salasana, name, store }) => {
+const Login = ({ handleLogin, salasana, name }) => {
 
 
 

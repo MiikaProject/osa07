@@ -7,7 +7,7 @@ const Blog = (props) => {
   //kuvaa kuinka suuri määrä infoa näytetään
   
   const blog = props.blog
-  const user = props.user
+  
   
   const [BigDisplay, setBigDisplay] = useState(false)
 
@@ -80,7 +80,7 @@ const Blog = (props) => {
     )
     
   } else {
-    if (blog.user===null ||blog.user === undefined || blog.user.username !== user.username) {
+    if (blog.user===null ||blog.user === undefined || blog.user.username !== props.userglobal.username) {
       return (
         <div style={blogStyle} className='isotieto'>
           <div onClick={toggleDisplay} className='nimipalkki'>
