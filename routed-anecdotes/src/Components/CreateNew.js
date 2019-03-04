@@ -1,24 +1,29 @@
 import React, { useState } from 'react'
 import {
-    BrowserRouter as Router,
-    Route, Link, Redirect, withRouter
+  BrowserRouter as Router,
+  Route, Link, Redirect, withRouter
 } from 'react-router-dom'
-
 
 const CreateNew = (props) => {
     const [content, setContent] = useState('')
     const [author, setAuthor] = useState('')
     const [info, setInfo] = useState('')
-  
+
+    
   
     const handleSubmit = (e) => {
       e.preventDefault()
+      props.setNotification(`a new anecdote ${content} created!`)
+      setTimeout(() => {
+        props.setNotification("")
+      }, 10000);
       props.addNew({
         content,
         author,
         info,
         votes: 0
       })
+      props.history.push('/')
     }
   
     return (
@@ -44,4 +49,5 @@ const CreateNew = (props) => {
   
   }
 
-  export default CreateNew
+  const CreateNewHistory = withRouter(CreateNew)
+  export default CreateNewHistory

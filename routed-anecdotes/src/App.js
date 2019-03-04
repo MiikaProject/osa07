@@ -9,6 +9,7 @@ import AnecdoteList from './Components/AnecdoteList'
 import About from './Components/About'
 import CreateNew from './Components/CreateNew'
 import Footer from './Components/Footer'
+import Notification from './Components/Notification'
 
 
 const App = () => {
@@ -28,13 +29,14 @@ const App = () => {
       id: '2'
     }
   ])
-
   const [notification, setNotification] = useState('')
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
   }
+  
+  
 
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
@@ -55,9 +57,13 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu/>      
+      <Notification notification={notification}/>
       <Route exact path="/" render={() => <AnecdoteList anecdotes={anecdotes} />} />
-      <Route path="/create" render={()=> <CreateNew/>}/>
+      <Route path="/create" render={()=> <CreateNew addNew={addNew} setNotification={setNotification}/>}/>
       <Route path="/about" render={()=> <About/>} />
+      <Route exact path="/anecdotes/:id" render= {({ match }) =>
+      <Anecdote anecdote={anecdoteById(match.params.id)} />
+    } />
       <Footer/>
     </div>
     </Router>
