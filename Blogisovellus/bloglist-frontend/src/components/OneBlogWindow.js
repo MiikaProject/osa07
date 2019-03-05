@@ -19,11 +19,12 @@ const OneBlogWindow = (props) => {
     
     return (
         <div>
-        <LogOutWindow/>
+        
         <h2>{blog.title}</h2>
         <div>{blog.url}</div>
         <span><Tykkaykset blog={blog} />  <button onClick={handleLike}>like</button> </span>
         <div>added by {blog.user.username}</div>
+        <CommentRender comments={blog.comments}/>
 
 
         </div>
@@ -39,6 +40,21 @@ const Tykkaykset = ({blog}) => {
     }
     return(
       <span>{blog.likes} likes</span>
+    )
+  }
+
+  const CommentRender = ({comments}) => {
+    console.log(comments);
+    
+    return(
+      <div>
+        <h3>comments</h3>
+        {comments.map(comment => {
+          return(
+            <li key={comment}>{comment}</li>
+          )
+        })}
+      </div>
     )
   }
 

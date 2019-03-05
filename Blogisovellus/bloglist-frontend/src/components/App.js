@@ -16,7 +16,7 @@ import {
 import Users from '../components/Users'
 import OneUserWindow from '../components/OneUserWindow'
 import OneBlogWindow from '../components/OneBlogWindow'
-
+import Menu from '../components/Menu'
 
 const App = (props) => {
  
@@ -95,7 +95,7 @@ const App = (props) => {
   return (
     <Router>
     <div>
-
+       <Menu/>
       <Route exact path="/" render ={() => <LoggedWindow/>}/>
       <Route exact path="/users" render={() => <Users/>} />
       <Route exact path="/blogs" render={()=> <LoggedWindow/> }/>

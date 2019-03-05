@@ -37,7 +37,7 @@ const UserTable = (props) => {
       {props.users.map(user => {
       
         
-    const userUrl=`${user.id}`
+    const userUrl=`users/${user.id}`
     return(
       <tr key={user.id}>
       <Link to={userUrl}>

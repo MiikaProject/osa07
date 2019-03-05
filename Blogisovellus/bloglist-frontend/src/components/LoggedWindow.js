@@ -17,7 +17,7 @@ const LoggedWindow = (props) => {
   return (
     <div>
 
-      <LogOutWindow/>
+      
       <Toggleable buttonLabel="create new" ref={blogFormRef}>
       <Addwindow  blogFormRef={blogFormRef}  />
       </Toggleable>
