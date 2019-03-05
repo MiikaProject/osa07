@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { likeBlog, removeBlog } from '../reducers/blogsReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import {
+  Link
+} from 'react-router-dom'
 
 const Blog = (props) => {
   //kuvaa kuinka suuri määrä infoa näytetään
@@ -70,11 +73,14 @@ const Blog = (props) => {
   }
 
   if (BigDisplay === false) {
+    const blogUrl = `blogs/${blog.id}`
     return (
       <div style={blogStyle} className='pienitieto'>
+      <Link to={blogUrl}>
         <div onClick={toggleDisplay} className='nimipalkki'>
           {blog.title} {blog.author}
         </div>
+        </Link>
 
       </div>
     )

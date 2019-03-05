@@ -7,7 +7,7 @@ import Toggleable from './Toggleable'
 import PropTypes from 'prop-types'
 import Viestikentta from './Viestikentta';
 import { clearGlobalUser } from '../reducers/userReducer'
-
+import LogOutWindow from './LogOutWindow'
 
 const LoggedWindow = (props) => {
     
@@ -17,10 +17,7 @@ const LoggedWindow = (props) => {
   return (
     <div>
 
-      <h2>blogs</h2>
-      <Viestikentta />
-      <p> {props.userglobal.username} logged in</p>
-      <button onClick={() => props.clearGlobalUser()}>logout</button>
+      <LogOutWindow/>
       <Toggleable buttonLabel="create new" ref={blogFormRef}>
       <Addwindow  blogFormRef={blogFormRef}  />
       </Toggleable>

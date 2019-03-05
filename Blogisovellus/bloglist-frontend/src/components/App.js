@@ -7,22 +7,32 @@ import Login from './login'
 import { useField } from '../hooks/index'
 import { setNotification } from '../reducers/notificationReducer'
 import { initializeBlogs } from '../reducers/blogsReducer'
+import { initializeUsers } from '../reducers/usersReducer'
 import { setUserGlobal } from '../reducers/userReducer'
 import {
   BrowserRouter as Router,
   Route, Link, Redirect, withRouter
 } from 'react-router-dom'
-import Users from './Users'
+import Users from '../components/Users'
+import OneUserWindow from '../components/OneUserWindow'
+import OneBlogWindow from '../components/OneBlogWindow'
 
 
 const App = (props) => {
  
+ 
   const name = useField('text')
   const salasana = useField('text')
 
-  useEffect(() => {
+  //asettaa blogit ja käyttäjät stateen
+  useEffect(()  => {
     props.initializeBlogs()
+    props.initializeUsers()
+    
+    
   }, [])
+
+  
 
   const propsName = {
     value:name.value,
@@ -75,14 +85,29 @@ const App = (props) => {
     )
   }
 
+  const userById = (id) =>
+  props.users.find(user => user.id ===id)
+
+  const blogById = (id) =>
+  props.blogs.find(blog => blog.id ===id)
+  
+
   return (
     <Router>
     <div>
-      
+
       <Route exact path="/" render ={() => <LoggedWindow/>}/>
       <Route exact path="/users" render={() => <Users/>} />
-      
-    </div>
+      <Route exact path="/blogs" render={()=> <LoggedWindow/> }/>
+      <Route exact path="/users/:id" render= {({match}) => 
+      <OneUserWindow user={userById(match.params.id)}/>
+      }/>
+      <Route exact path="/blogs/:id" render= {({match}) => 
+      <OneBlogWindow blog={blogById(match.params.id)}/>
+      }/>
+      </div>
+
+    
     </Router>
   )
 }
@@ -91,12 +116,13 @@ const mapStateToProps = (state) => {
   return {
     blogs : state.blogs,
     notification : state.notification,
-    userglobal : state.user
+    userglobal : state.user,
+    users : state.users
   }
 }
 
 const mapDispatchToProps = {
-  initializeBlogs, setNotification, setUserGlobal
+  initializeBlogs, setNotification, setUserGlobal ,initializeUsers
 }
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
