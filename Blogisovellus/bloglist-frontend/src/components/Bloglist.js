@@ -1,9 +1,8 @@
 import React from 'react'
 import Blog from './Blog'
 import { connect } from 'react-redux'
-import {
-  Link
-} from 'react-router-dom'
+import { Table } from 'react-bootstrap'
+
 
 
 const BlogList = (props) => {
@@ -14,9 +13,17 @@ const BlogList = (props) => {
   if(props.blogs){
     return (
       <div>
+        <Table size="sm" bordered striped hover >
+        <tbody>
         {props.blogs.map(blog =>
+        <tr key={blog.id}>
+        <td>
           <Blog key={blog.id} blog={blog}  />
+          </td>
+          </tr>
         )}
+        </tbody>
+        </Table>
       </div>
   
     )

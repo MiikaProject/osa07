@@ -40,6 +40,18 @@ export const initializeBlogs = () => {
     }
 }
 
+export const setBlogs = (blogs) => {
+    
+    
+    return async dispatch => {
+        
+        dispatch({
+            type: 'SET_BLOGS',
+            data: blogs
+        })
+    }
+}
+
 export const addBlog = (BlogToAdd) => {
     return async dispatch => {
         const newBlog = await blogService.create(BlogToAdd)
@@ -73,7 +85,7 @@ export const likeBlog = (id) => {
 
 
 export const removeBlog = (id) => {
-    console.log(id);
+    
     return async dispatch => {
         await blogService.remove(id)
 

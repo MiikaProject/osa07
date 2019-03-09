@@ -47,6 +47,18 @@ const update = async (UpdatedObject) => {
 }
 
 
+const addComment = async (id, comment) => {
+  const url = `${baseUrl}/${id}/comments`
+  const materiaali = {
+    id : id,
+    comment : comment
+  }
+  const response = await axios.post(url,materiaali)
+  
+  return response.data
+}
+
+
 const remove = async (id) => {
   const url = `${baseUrl}/${id}`
   const config = {
@@ -56,4 +68,4 @@ const remove = async (id) => {
   return response.data
 }
 
-export default { getAll, create, setToken, update, remove, getById }
+export default { getAll, create, setToken, update, remove, getById, addComment }

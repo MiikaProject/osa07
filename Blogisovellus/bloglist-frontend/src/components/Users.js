@@ -4,6 +4,7 @@ import { clearGlobalUser } from '../reducers/userReducer'
 import {
   Link
 } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 const Users = (props) => {
   
@@ -12,7 +13,7 @@ const Users = (props) => {
   }
   return (
     <div>
-      <h2>blogs</h2>
+      
       <p> {props.userglobal.name} logged in</p>
       <button onClick={() => props.clearGlobalUser()}>logout</button>
       <h2>Users</h2>
@@ -27,7 +28,7 @@ const Users = (props) => {
 
 const UserTable = (props) => {
   return(
-    <table>
+    <Table striped>
       <tbody>
       <tr>
         <th></th>
@@ -40,9 +41,11 @@ const UserTable = (props) => {
     const userUrl=`users/${user.id}`
     return(
       <tr key={user.id}>
+      <th>
       <Link to={userUrl}>
-      <th onClick={() => console.log('toimii')}>{user.username}</th>
+      <div onClick={() => console.log('toimii')}>{user.username}</div>
       </Link>
+      </th>
       <th>{user.blogs.length}</th>
       </tr>
     )
@@ -50,7 +53,7 @@ const UserTable = (props) => {
     )}
       
       </tbody>
-    </table>
+    </Table>
   )
 }
 

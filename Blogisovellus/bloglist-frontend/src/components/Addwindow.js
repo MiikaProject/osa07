@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { setNotification, clearNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 import { addBlog } from '../reducers/blogsReducer'
+import {  Form } from 'react-bootstrap'
 
 const Addwindow = (props) => {
   const [title, setTitle] = useState('')
@@ -37,7 +38,7 @@ const Addwindow = (props) => {
   return (
     <div>
 
-      <form onSubmit={handleAddBlog}>
+      <Form onSubmit={handleAddBlog}>
 
         <div>
           title:
@@ -59,7 +60,7 @@ const Addwindow = (props) => {
         <div>
           <button>lisää blogi</button>
         </div>
-      </form>
+      </Form>
 
     </div>
 

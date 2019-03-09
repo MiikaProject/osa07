@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import blogService from '../services/blogs'
+
 import Addwindow from './Addwindow'
 import BlogList from './Bloglist'
 import Toggleable from './Toggleable'
 import PropTypes from 'prop-types'
-import Viestikentta from './Viestikentta';
+
 import { clearGlobalUser } from '../reducers/userReducer'
-import LogOutWindow from './LogOutWindow'
+
 
 const LoggedWindow = (props) => {
     

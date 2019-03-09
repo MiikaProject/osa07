@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import blogService from '../services/blogs'
 import loginService from '../services/login'
 import LoggedWindow from './LoggedWindow'
 import Login from './login'
@@ -11,7 +10,7 @@ import { initializeUsers } from '../reducers/usersReducer'
 import { setUserGlobal } from '../reducers/userReducer'
 import {
   BrowserRouter as Router,
-  Route, Link, Redirect, withRouter
+  Route
 } from 'react-router-dom'
 import Users from '../components/Users'
 import OneUserWindow from '../components/OneUserWindow'
@@ -93,6 +92,7 @@ const App = (props) => {
   
 
   return (
+    <div className="container">
     <Router>
     <div>
        <Menu/>
@@ -109,6 +109,7 @@ const App = (props) => {
 
     
     </Router>
+    </div>
   )
 }
 

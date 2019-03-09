@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-    BrowserRouter as Router,
-    Route, Link, Redirect, withRouter
+    Link
   } from 'react-router-dom'
 import {clearGlobalUser} from '../reducers/userReducer'
 
