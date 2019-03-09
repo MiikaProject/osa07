@@ -14,8 +14,14 @@ const LoggedWindow = (props) => {
   
 
   const blogFormRef = React.createRef()
+
+
+  const blogsStyle = {
+    color:"blue",
+    backgroundColor:"powderblue"
+  }
   return (
-    <div>
+    <div style={blogsStyle}>
 
       
       <Toggleable buttonLabel="create new" ref={blogFormRef}>

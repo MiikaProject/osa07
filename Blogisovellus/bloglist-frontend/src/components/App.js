@@ -89,10 +89,14 @@ const App = (props) => {
 
   const blogById = (id) =>
   props.blogs.find(blog => blog.id ===id)
-  
+
+  const menuStyle = {
+    color:"blue",
+    
+  }
 
   return (
-    <div className="container">
+    <div className="container" style={menuStyle}>
     <Router>
     <div>
        <Menu/>

@@ -4,8 +4,14 @@ import { connect } from 'react-redux'
 
 const Login = ({ handleLogin, salasana, name }) => {
 
+  const loginStyle = {
+    color:"blue",
+    backgroundColor:"powderblue",
+    fontFamily: "verdana"
+  }
+
     return (
-      <div>
+      <div style={loginStyle}> 
         <h2>login in to application</h2>
         <Viestikentta  />
         <form onSubmit={handleLogin}>

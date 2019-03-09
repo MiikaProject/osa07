@@ -6,13 +6,30 @@ import {
 import {clearGlobalUser} from '../reducers/userReducer'
 
 const Menu = (props) => {
+
+    const menuStyle = {
+        color:"blue",
+        backgroundColor: "powderblue",
+        borderRadius:"2",
+        
+    }
+    
+    const menuItem = {
+        padding:"5px"
+    }
+
+    const titleItem ={
+        padding:"20px"
+    }
+
+
     return(
-        <div>
-            <Link to="/blogs" >blogs</Link>
-            <Link to= "/users" > users</Link>
-            <span> {props.userglobal.username} logged in </span>
+        <div style={menuStyle}>
+            <span style={menuItem}><Link style={menuItem} to="/blogs" >blogs</Link></span>
+            <span style={menuItem}><Link to= "/users" > users</Link></span>
+            <span style={menuItem}> {props.userglobal.username} logged in </span>
             <button onClick={() => props.clearGlobalUser()}>logout</button>
-            <div><h2>blog app</h2></div>
+            <div style={titleItem}><h2>blog app</h2></div>
         </div>
     )
 }
